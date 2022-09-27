@@ -89,13 +89,7 @@ public class Spring01Application
 
         return jdbcTemplate.query( // or queryForObject()
                 sql,
-                (rs, rowNum) ->
-                        new Customer(
-                                rs.getLong("id"),
-                                rs.getString("name"),
-                                rs.getInt("age"),
-                                rs.getTimestamp("created_date").toLocalDateTime()
-                        )
+                Customer.getRowMapper()
         );
     }
 }

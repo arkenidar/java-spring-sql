@@ -1,5 +1,7 @@
 package app;
 
+import org.springframework.jdbc.core.RowMapper;
+
 import java.time.LocalDateTime;
 
 public class Customer {
@@ -13,6 +15,16 @@ public class Customer {
         this.name = name;
         this.age = age;
         this.created_date = created_date;
+    }
+
+    public static RowMapper<Customer> getRowMapper() {
+        return (rs, rowNum) ->
+                new Customer(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getInt("age"),
+                        rs.getTimestamp("created_date").toLocalDateTime()
+                );
     }
 
     @Override
