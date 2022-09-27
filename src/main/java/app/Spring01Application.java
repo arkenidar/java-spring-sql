@@ -28,8 +28,12 @@ public class Spring01Application
 
     private static final Logger LOG = LoggerFactory
             .getLogger(Spring01Application.class);
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public Spring01Application(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public static void main(String[] args) {
         LOG.info("STARTING THE APPLICATION");
@@ -49,37 +53,34 @@ public class Spring01Application
         PrintStream out = System.out;
         Scanner in = new Scanner(System.in);
 
-        /*
-
-        // query()
-        out.print("sql? ");
-        String sql = in.nextLine();
-        out.print("***\n"+query(sql)+"****\n");
+        // findAll()
+        findAll().forEach(out::println);
 
         // index()
         out.println(index());
 
-        */
-
-        findAll().forEach(out::println);
+        // query()
+        out.print("sql? ");
+        String sql = in.nextLine();
+        out.print("***\n" + query(sql) + "****\n");
     }
 
     public String index() {
-        String response = "";
+        StringBuilder response = new StringBuilder();
         SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("select * from users_login");
         while (sqlRowSet.next()) {
-            response += sqlRowSet.getString("user_name") + "\n";
+            response.append(sqlRowSet.getString("user_name")).append("\n");
         }
-        return response;
+        return response.toString();
     }
 
     public String query(String sql) {
-        String response = "";
+        StringBuilder response = new StringBuilder();
         SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(sql);
         while (sqlRowSet.next()) {
-            response += sqlRowSet.getString(1) + "\n";
+            response.append(sqlRowSet.getString(1)).append("\n");
         }
-        return response;
+        return response.toString();
     }
 
     // https://mkyong.com/spring/spring-jdbctemplate-querying-examples/
