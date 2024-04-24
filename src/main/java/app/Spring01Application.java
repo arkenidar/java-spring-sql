@@ -1,5 +1,7 @@
 package app;
 
+// https://github.com/arkenidar/java-spring-sql
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +88,7 @@ public class Spring01Application
     // https://mkyong.com/spring/spring-jdbctemplate-querying-examples/
     public List<Customer> findAll() {
 
-        String sql = "select * from \"Customer\" ";
+        String sql = "select * from customers ";
 
         return jdbcTemplate.query( // or queryForObject()
                 sql,
